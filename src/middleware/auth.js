@@ -5,7 +5,7 @@ const authMiddleWare = async (req, res, next) => {
 
     try {
         const userProivdeToken = req.header('Authorization').replace('Bearer ', '');
-        const decoded = jwt.verify(userProivdeToken, process.env.JWTSECRATEKEY);
+        const decoded = jwt.verify(userProivdeToken, process.env.JWT_SECRATE_KEY);
         const user = await User.findOne({ _id: decoded._id, 'tokens.token': userProivdeToken });
 
         if (!user) {
