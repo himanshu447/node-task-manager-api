@@ -64,6 +64,7 @@ router.get('/tasks', authMiddleWare, async (req, res) => {
             sort[parts[0]] = parts[1] === 'asc' ? 1 : -1; ///// 1 is for ASC and -1 is for DESC
         }
 
+        ///in new verison of mongoose you can directly get result not need to call .execPopulate() method
         await req.user.populate({
             path: 'myTasks',
             match,

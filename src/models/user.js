@@ -83,8 +83,15 @@ userSchema.statics.findByCredentials = async (email, passowrd) => {
     return user;
 }
 
+//we are using normal function() rather then callable function bez function() have access of current user data
+
+//directly call by express 
+//this is override method if not define then it will return all fields
 userSchema.methods.toJSON = function () {
+    //this refer as current user object
     const user = this;
+    
+    //create new object from exist object
     const userObject = user.toObject();
 
     delete userObject.password;
@@ -101,7 +108,8 @@ userSchema.virtual('myTasks', {
     foreignField: 'owner', //name of field that connect with this table like owner filed inside task table that contain user id
 });
 
-//Hash the plain text passowrd before saving
+//Hash the plain text passowrd before saving 
+//(MiddleWhare of mongoose that run before save the data) 
 userSchema.pre('save', async function (next) {
     const user = this;
 
@@ -121,6 +129,7 @@ userSchema.pre('remove', async function (next) {
     next();
 })
 
+// Create mongoose model with 'User' name
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
